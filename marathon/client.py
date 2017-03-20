@@ -86,7 +86,8 @@ class MarathonClient(object):
                     'Error while calling %s: %s', url, str(e))
 
         if response is None:
-            raise MarathonError('No remaining Marathon servers to try')
+            raise MarathonError('Marathon is unreachable, please check 1. Marathon or Puck is down. '
+                                '2. Tunnel lost connection.')
 
         if response.status_code >= 500:
             marathon.log.error('Got HTTP {code}: {body}'.format(
@@ -125,7 +126,8 @@ class MarathonClient(object):
             if response.ok:
                 return response.iter_lines()
 
-        raise MarathonError('No remaining Marathon servers to try')
+        raise MarathonError('Marathon is unreachable, please check 1. Marathon or Puck is down. '
+                            '2. Tunnel lost connection.')
 
     def list_endpoints(self):
         """List the current endpoints for all applications
